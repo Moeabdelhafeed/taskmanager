@@ -46,7 +46,7 @@
 
                             </td>
                             <td>
-                              @if($user->tasks->whereNotNull('submitted_at')->count() > 0)
+                              @if($user->tasks->whereNotNull('submitted_at')->count() > 0 && !$project->tasks->contains('iscomplete', true))
                               <span class="badge bg-primary rounded-circle">
                                 {{$user->tasks->whereNotNull('submitted_at')->count()}}
                               </span>

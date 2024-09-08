@@ -12,6 +12,7 @@
             <th scope="col">show</th>
             <th scope="col">tasks</th>
             <th scope="col">notes</th>
+            <th scope="col">manager</th>
 
 
         </tr>
@@ -42,6 +43,7 @@
                 @endif
             
             </td>
+            <td>{{$project->manager->name}}</td>
             
         </tr>
         @endforeach

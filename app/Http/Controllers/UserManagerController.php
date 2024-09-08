@@ -139,7 +139,7 @@ $user->delete();
     }
 
     public function indextrash(){
-        $users = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->where('created_by' , Auth::user()->id)->get();
         return view('manager.user.indextrash', compact('users'));
     }
 

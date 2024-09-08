@@ -44,7 +44,7 @@
                               @endif                            
                             </td>
                             <td>
-                              @if($project->tasks->whereNotNull('submitted_at')->count() > 0)
+                              @if($project->tasks->whereNotNull('submitted_at')->count() > 0 && !$project->tasks->contains('iscomplete', true))
                               <span class="badge bg-primary rounded-circle">
                                 {{$project->tasks->whereNotNull('submitted_at')->count()}}
                               </span>
@@ -97,7 +97,7 @@
                               @endif                            
                             </td>
                             <td>
-                              @if($project->tasks->whereNotNull('submitted_at')->count() > 0)
+                              @if($project->tasks->whereNotNull('submitted_at')->count() > 0 && !$project->tasks->contains('iscomplete', true))
                               <span class="badge bg-primary rounded-circle">
                                 {{$project->tasks->whereNotNull('submitted_at')->count()}}
                               </span>

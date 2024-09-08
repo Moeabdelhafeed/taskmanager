@@ -146,13 +146,13 @@ class ProjectManagerController extends Controller
 
 
 public function indextrash(){
-    $projects = Project::onlyTrashed()->get();
+    $projects = Project::onlyTrashed()->where('manager_id', Auth::user()->id)->get();
     return view('manager.project.indextrash', compact('projects'));
 }
 
 
 public function restoretrash(string $id){
-    $project = Project::onlyTrashed()->where('id', $id)->restore();
+    $project = Project::onlyTrashed()->where('manager_id', Auth::user()->id)->where('id', $id)->restore();
 
     $tasks = Task::onlyTrashed()->where('project_id', $id)->restore();
 
@@ -162,7 +162,7 @@ public function restoretrash(string $id){
 public function destroytrash(string $id)
 {
 
-    $project = Project::onlyTrashed()->where('id', $id)->first();
+    $project = Project::onlyTrashed()->where('manager_id', Auth::user()->id)->where('id', $id)->first();
     if ($project) {
         $project->users()->detach();
         $tasks = Task::onlyTrashed()->where('project_id', $id)->get();
@@ -187,7 +187,7 @@ public function destroytrash(string $id)
     public function adduser(string $id){
         $role = Role::where('name', 'user')->first();
 
-        $allUsers = $role->users->where('created_by', Auth::user()->id);
+        $allUsers = $role->users;
 
         $project = Project::find($id);
 
