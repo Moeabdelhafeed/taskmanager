@@ -231,9 +231,7 @@ public function destroytrash(string $id)
                   ->where('user_id', $userid)
                   ->get();
 
-    // foreach ($tasks as $task) {
-    //     $task->delete();
-    // }
+   
 
     // Detach the user from the specific project
     $project->users()->detach($userid);

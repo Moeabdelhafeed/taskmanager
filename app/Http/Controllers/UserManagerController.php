@@ -150,11 +150,7 @@ $user->delete();
 
        
 
-        // if ($tasks) {
-        //     foreach ($tasks as $task) {
-        //         $task->forceDelete(); 
-        //     }
-        // }
+    
 
         $user->forceDelete();
         return redirect(route('manager.user.indextrash'));
