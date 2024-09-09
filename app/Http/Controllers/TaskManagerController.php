@@ -225,7 +225,7 @@ class TaskManagerController extends Controller
     public function taskcompleteindex(string $projectid, string $userid){
 
         $user = User::findOrFail($userid);
-        $tasks = $user->tasks->where('iscomplete' , 1);
+        $tasks = $user->tasks->where('iscomplete' , 1)->where('project_id' , $projectid);
         return view('manager.task.completeindex', compact('tasks' , 'projectid' , 'userid', 'user'));
     }
 

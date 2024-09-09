@@ -115,9 +115,13 @@
             @endif
         </div>
 
-
+        
         <button type="submit" class="btn btn-warning ">Resubmit</button>
+        @if ($task->submitted_at == NULL)
+        <a href="" class="btn btn-primary disabled" id="addnote">Add Note</a>
+        @else
         <a href="" class="btn btn-primary " id="addnote">Add Note</a>
+        @endif
 
 
         

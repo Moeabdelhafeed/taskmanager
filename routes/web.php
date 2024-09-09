@@ -31,6 +31,10 @@ Route::get('/manager/project/adduser/{id}', [App\Http\Controllers\ProjectManager
 
 Route::get('/manager/project/{id}/tasks', [App\Http\Controllers\ProjectManagerController::class, 'task'])->name('manager.project.task');
 
+Route::get('/manager/project/{projectid}/task/{taskid}/assignform', [App\Http\Controllers\ProjectManagerController::class, 'assignuserform'])->name('manager.project.task.assignform');
+
+Route::put('/manager/project/{projectid}/task/{taskid}/assign', [App\Http\Controllers\ProjectManagerController::class, 'assignuser'])->name('manager.project.task.assign');
+
 Route::get('/manager/user/trash/{userid}', [App\Http\Controllers\UserManagerController::class, 'restoretrash'])->name('manager.user.restoretrash');
 Route::delete('/manager/user/trash/{userid}', [App\Http\Controllers\UserManagerController::class, 'destroytrash'])->name('manager.user.destroytrash');
 

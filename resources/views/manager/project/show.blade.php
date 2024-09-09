@@ -13,8 +13,11 @@
                     <h2>users in the {{$project->name}} project</h2>
                     <a class=" btn btn-success" href="{{route('manager.project.adduser' , $project->id)}}">add user </a>
 
-                    <a class=" btn btn-primary" href="{{route('manager.project.task' , $project->id)}}"> tasks for {{$project->name}} </a>
-            
+                    @if ($project ->tasks->count() > 0)
+                    <a class=" btn btn-primary" href="{{route('manager.project.task' , $project->id)}}"> tasks for {{$project->name}} ({{$project->tasks->count()}}) </a>
+            @else
+            <a class=" btn btn-primary disabled" href="{{route('manager.project.task' , $project->id)}}"> tasks for {{$project->name}} ({{$project->tasks->count()}}) </a>
+            @endif
                     
                     <table class="table">
                         <thead>
@@ -46,9 +49,9 @@
 
                             </td>
                             <td>
-                              @if($user->tasks->whereNotNull('submitted_at')->count() > 0 && !$project->tasks->contains('iscomplete', true))
+                              @if($user->tasks->where('project_id', $project->id)->whereNotNull('submitted_at')->count() > 0 && !$project->tasks->contains('iscomplete', true))
                               <span class="badge bg-primary rounded-circle">
-                                {{$user->tasks->whereNotNull('submitted_at')->count()}}
+                                {{$user->tasks->where('project_id', $project->id)->whereNotNull('submitted_at')->count()}}
                               </span>
                               @else
                               nothing to review

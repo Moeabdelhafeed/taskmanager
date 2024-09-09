@@ -26,6 +26,7 @@
                             <th scope="col">user name</th>
                             <th scope="col">deadline</th>
                             <th scope="col">status</th>
+                            <th scope="col">assign</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -37,7 +38,8 @@
                           <tr>
                             <td>{{$task -> name}}</td>
                             <td>{{$task -> content}}</td>
-                            @if(is_null($task->user) || is_null($task->user->name))
+                            @if(!$project->users->contains($task->user))
+          
                                   <td>The user is no longer in the project (add them back)</td>
                               @else
                                   <td>{{ $task->user->name }}</td>
@@ -56,6 +58,14 @@
                                 <td> on progress</td>
                                 @endif
                             @endif
+
+                            <td>
+                              @if ($project->users->contains($task->user))
+                               <a class="btn btn-warning disabled" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
+                               @else
+                               <a class="btn btn-warning" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
+                               @endif
+                         </td>
                     
                           </tr>
                           @endforeach
@@ -76,7 +86,9 @@
                             <th scope="col">user name</th>
                             <th scope="col">deadline</th>
                             <th scope="col">status</th>
+                            <th scope="col">assign</th>
                           </tr>
+                          
                         </thead>
                         <tbody>
                             @foreach ($completedtasks as $task)
@@ -87,11 +99,12 @@
                           <tr>
                             <td>{{$task -> name}}</td>
                             <td>{{$task -> content}}</td>
-                            @if(is_null($task->user) || is_null($task->user->name))
-                                  <td>The user is no longer in the project (add them back)</td>
-                              @else
-                                  <td>{{ $task->user->name }}</td>
-                              @endif
+                            @if(!$project->users->contains($task->user))
+          
+                            <td>The user is no longer in the project (add them back)</td>
+                        @else
+                            <td>{{ $task->user->name }}</td>
+                        @endif
 
                             <td>{{$task -> deadline}}</td>
                             @if ($task->submitted_at != NULL)
@@ -107,6 +120,14 @@
                                 <td> on progress</td>
                                 @endif
                             @endif
+
+                            <td>
+                              @if ($project->users->contains($task->user))
+                               <a class="btn btn-warning disabled" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
+                               @else
+                               <a class="btn btn-warning" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
+                               @endif
+                         </td>
                     
                           </tr>
                           @endforeach

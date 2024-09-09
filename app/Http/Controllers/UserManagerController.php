@@ -126,11 +126,11 @@ class UserManagerController extends Controller
             return redirect()->back()->withErrors(['delete'=> 'you can\'t delete an manager']);
         }
 
-        if ($user->tasks) {
-            foreach ($user->tasks as $task) {
-                $task->delete(); 
-            }
-        }
+        // if ($user->tasks) {
+        //     foreach ($user->tasks as $task) {
+        //         $task->delete(); 
+        //     }
+        // }
 
 $user->delete();
 
@@ -150,11 +150,11 @@ $user->delete();
 
        
 
-        if ($tasks) {
-            foreach ($tasks as $task) {
-                $task->forceDelete(); 
-            }
-        }
+        // if ($tasks) {
+        //     foreach ($tasks as $task) {
+        //         $task->forceDelete(); 
+        //     }
+        // }
 
         $user->forceDelete();
         return redirect(route('manager.user.indextrash'));

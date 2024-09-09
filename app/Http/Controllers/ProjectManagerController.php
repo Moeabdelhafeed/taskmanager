@@ -231,9 +231,9 @@ public function destroytrash(string $id)
                   ->where('user_id', $userid)
                   ->get();
 
-    foreach ($tasks as $task) {
-        $task->delete();
-    }
+    // foreach ($tasks as $task) {
+    //     $task->delete();
+    // }
 
     // Detach the user from the specific project
     $project->users()->detach($userid);
@@ -251,6 +251,34 @@ public function task(string $projectid){
     $tasks = $project->tasks()->where('iscomplete' , 0)->get();
 
     return view('manager.project.task' , compact('tasks' , 'completedtasks' , 'project'));
+
+}
+
+public function assignuserform(string $projectid , string $taskid){
+
+   
+    $project = Project::findOrFail($projectid);
+
+    $task = Task::findOrFail($taskid);
+
+    $role = Role::where('name' , 'user')->first();
+
+    $users = $role->users()->whereHas('projects', function ($query) use ($projectid) {
+        $query->where('project_id', $projectid);
+    })->get();
+
+    return view('manager.task.assign', compact('users' , 'project' , 'task'));
+}
+
+public function assignuser(Request $request , string $projectid , string $taskid){
+    $task = Task::findOrFail($taskid);
+
+    $task->user_id= $request->user;
+
+    $task->save();
+
+    return redirect(route('manager.project.task' , ['id' => $projectid]));
+
 
 }
     
