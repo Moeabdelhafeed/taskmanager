@@ -21,7 +21,8 @@ class UserManagerController extends Controller
         
 
         $users =  Auth::user()->createdusers;
-        return view('manager.user.index', compact('users'));
+        $trasheduserscount = User::onlyTrashed()->where('created_by', Auth::user()->id)->count();
+        return view('manager.user.index', compact('users', 'trasheduserscount'));
     }
 
     /**
@@ -153,7 +154,7 @@ $user->delete();
     
 
         $user->forceDelete();
-        return redirect(route('manager.user.indextrash'));
+        return redirect(route('manager.user.index'));
     }
 
     public function restoretrash(string $id){
@@ -166,6 +167,6 @@ $user->delete();
                 $task->restore(); 
             }
         }
-        return redirect(route('manager.user.indextrash'));
+        return redirect(route('manager.user.index'));
     }
 }

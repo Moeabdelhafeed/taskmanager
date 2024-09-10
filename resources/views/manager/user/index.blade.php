@@ -24,7 +24,12 @@
 
 
                     <a href="{{route('register')}}" class="btn btn-success">create</a>
-                    <a href="{{route('manager.user.indextrash')}}" class="btn btn-secondary">trash</a>
+
+                    @if($trasheduserscount > 0)
+                    <a href="{{route('manager.user.indextrash')}}" class="btn btn-secondary">trash ({{$trasheduserscount}}) </a>
+                    @else
+                    <a  class="btn btn-secondary disabled">trash ({{$trasheduserscount}}) </a>
+                    @endif
 
                     <table class="table">
                         <thead>

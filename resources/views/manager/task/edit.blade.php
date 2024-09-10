@@ -24,7 +24,7 @@
 
     @if ($task->iscomplete == 1)
 
-    <form class="w-50 m-auto" method="post" action="{{ route('manager.task.update', ['projectid' => $projectid, 'userid' => $userid, 'task' => $task->id]) }}">
+    <form class="w-50 m-auto" >
         @csrf
         @method('PUT')
 
@@ -57,7 +57,7 @@
                         <input type="text" class="form-control" name="originalnotes[{{$note->id}}]" value="{{$note->content}}" placeholder="content" disabled>
         
                     
-                                <a class="btn btn-danger disabled" href="{{route('manager.project.task.notedelete' , ['projectid' => $projectid, 'userid' => $userid,'taskid' => $task->id, 'noteid' => $note->id])}}" class="btn -btn-danger"> delete</a>
+                                <a class="btn btn-danger disabled" class="btn -btn-danger"> delete</a>
 
               
                     </div>
@@ -158,8 +158,7 @@
 </div>
 
 
-
-
+@if ($task->submitted_at != NULL)
 <script>
     let noteCount = 0; 
 
@@ -176,4 +175,7 @@
         document.getElementById('notes-container').appendChild(newNoteField);
     });
 </script>
+@endif
+
+
 @endsection

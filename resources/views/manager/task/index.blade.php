@@ -19,8 +19,11 @@
 
                     <a href="{{route('manager.task.create' , ['projectid' => $projectid, 'userid' => $userid])}}" class="btn btn-success">create</a>
 
-                    <a href="{{route('manager.task.completeindex' , ['projectid' => $projectid, 'userid' => $userid])}}" class="btn btn-primary">completed tasks</a>
-
+                    @if ($user->tasks->where('iscomplete' , 1)->count() > 0)
+                    <a href="{{route('manager.task.completeindex' , ['projectid' => $projectid, 'userid' => $userid])}}" class="btn btn-primary">completed tasks ({{$user->tasks->where('iscomplete' , 1)->count()}})</a>
+                    @else
+                    <a  class="disabled btn btn-primary">completed tasks ({{$user->tasks->where('iscomplete' , 1)->count()}})</a>
+                    @endif
                     <table class="table">
                         <thead>
                           <tr>

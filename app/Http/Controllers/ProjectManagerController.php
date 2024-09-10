@@ -28,6 +28,8 @@ class ProjectManagerController extends Controller
             return $project->tasks()->count() === 0 || $project->tasks()->where('iscomplete', 0)->exists();
         });
 
+        $trashedprojectscount = Project::onlyTrashed()->where('manager_id' , Auth::user()->id)->count();
+
         
 
         $completedprojects = Auth::user()->createdprojects->filter(function ($project) {
@@ -35,9 +37,11 @@ class ProjectManagerController extends Controller
         });
 
         
+
+        
         
     
-        return view('manager.project.index', compact('projects' , 'completedprojects'));
+        return view('manager.project.index', compact('projects' , 'completedprojects', 'trashedprojectscount'));
     }
 
     /**
@@ -76,15 +80,23 @@ class ProjectManagerController extends Controller
         $project = Project::findOrFail($id);
         $managerid = $project->manager->id;
 
+        $problem = false;
+
+        foreach($project->tasks as $task){
+            if(!$project->users->contains($task->user)){
+                $problem = true;
+            }
+        }
+
         if(Auth::user()->id != $managerid){
-            return redirect()->route('manager.project.index');
+            return redirect()->route('manager.project.index', );
         }
 
         
     
         $users = $project->users; 
     
-        return view('manager.project.show', compact('project', 'users', 'id'));
+        return view('manager.project.show', compact('project', 'users', 'id','problem'));
     }
     
 
@@ -156,7 +168,7 @@ public function restoretrash(string $id){
 
     $tasks = Task::onlyTrashed()->where('project_id', $id)->restore();
 
-    return redirect(route('manager.project.indextrash'));
+    return redirect(route('manager.project.index'));
 }
 
 public function destroytrash(string $id)
@@ -178,7 +190,7 @@ public function destroytrash(string $id)
         $project->forceDelete();
     }
 
-    return redirect(route('manager.project.indextrash'));
+    return redirect(route('manager.project.index'));
 }
 
 
@@ -277,6 +289,16 @@ public function assignuser(Request $request , string $projectid , string $taskid
 
     return redirect(route('manager.project.task' , ['id' => $projectid]));
 
+
+}
+
+public function deletetask(string $projectid , string $taskid){
+
+    $task = Task::findOrFail($taskid);
+
+    $task->forceDelete();
+
+    return redirect(route('manager.project.task' , ['id' => $projectid]));
 
 }
     

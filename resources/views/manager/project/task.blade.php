@@ -27,6 +27,7 @@
                             <th scope="col">deadline</th>
                             <th scope="col">status</th>
                             <th scope="col">assign</th>
+                            <th scope="col">delete</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -40,7 +41,7 @@
                             <td>{{$task -> content}}</td>
                             @if(!$project->users->contains($task->user))
           
-                                  <td>The user is no longer in the project (add them back)</td>
+                                  <td  class="text-danger fw-bold">The user is no longer in the project</td>
                               @else
                                   <td>{{ $task->user->name }}</td>
                               @endif
@@ -61,11 +62,25 @@
 
                             <td>
                               @if ($project->users->contains($task->user))
-                               <a class="btn btn-warning disabled" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
+                               <a class="btn btn-warning disabled">assign</a>
                                @else
                                <a class="btn btn-warning" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
                                @endif
                          </td>
+
+                         <td>
+                          @if ($project->users->contains($task->user))
+                          <a class="btn btn-danger" >delete</a>
+                          @else
+                          <form method="POST" action="{{route('manager.project.task.delete' , ['projectid' => $project->id , 'taskid' => $task ->id])}}">
+                           @csrf
+                           @method('DELETE')
+
+                           <button type="submit" class="btn btn-danger">delete</button>
+                          </form>
+                           @endif
+                          </td>
+                    
                     
                           </tr>
                           @endforeach
@@ -87,6 +102,7 @@
                             <th scope="col">deadline</th>
                             <th scope="col">status</th>
                             <th scope="col">assign</th>
+                            <th scope="col">delete</th>
                           </tr>
                           
                         </thead>
@@ -101,7 +117,7 @@
                             <td>{{$task -> content}}</td>
                             @if(!$project->users->contains($task->user))
           
-                            <td>The user is no longer in the project (add them back)</td>
+                            <td class="text-danger fw-bold">The user is no longer in the project</td>
                         @else
                             <td>{{ $task->user->name }}</td>
                         @endif
@@ -123,11 +139,24 @@
 
                             <td>
                               @if ($project->users->contains($task->user))
-                               <a class="btn btn-warning disabled" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
+                               <a class="btn btn-warning disabled" >assign</a>
                                @else
                                <a class="btn btn-warning" href="{{route('manager.project.task.assignform' , ['projectid' => $project->id , 'taskid' => $task ->id] )}}">assign</a>
                                @endif
                          </td>
+
+                         <td>
+                          @if ($project->users->contains($task->user))
+                          <a class="btn btn-danger" >delete</a>
+                          @else
+                          <form method="POST" action="{{route('manager.project.task.delete', ['projectid' => $project->id , 'taskid' => $task ->id])}}">
+                           @csrf
+                           @method('DELETE')
+
+                           <button type="submit" class="btn btn-danger">delete</button>
+                          </form>
+                           @endif
+                          </td>
                     
                           </tr>
                           @endforeach

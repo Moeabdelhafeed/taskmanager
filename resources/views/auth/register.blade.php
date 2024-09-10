@@ -28,14 +28,14 @@
             @enderror
         </div>
 
-        @foreach ($roles as $role)
-        <div class="form-check">
+    
+        <div class="form-check mb-3">
             <input class="form-check-input" value="{{$role->id}}" type="radio" name="role_id" id="{{$role->name}}" checked>
             <label class="form-check-label" for="{{$role->name}}">
                 {{$role->name}}
             </label>
         </div>
-        @endforeach
+
         @error('role_id')
             <div class="invalid-feedback">
                 <strong>{{ $message }}</strong>

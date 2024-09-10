@@ -16,9 +16,12 @@
                     @if ($project ->tasks->count() > 0)
                     <a class=" btn btn-primary" href="{{route('manager.project.task' , $project->id)}}"> tasks for {{$project->name}} ({{$project->tasks->count()}}) </a>
             @else
-            <a class=" btn btn-primary disabled" href="{{route('manager.project.task' , $project->id)}}"> tasks for {{$project->name}} ({{$project->tasks->count()}}) </a>
+            <a class=" btn btn-primary disabled" > tasks for {{$project->name}} ({{$project->tasks->count()}}) </a>
             @endif
-                    
+
+            @if($problem)
+            <p class="text-danger fw-bold d-inline ms-3">there are some tasks that need modification</p>
+            @endif
                     <table class="table">
                         <thead>
                           <tr>
